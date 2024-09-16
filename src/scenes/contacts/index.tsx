@@ -51,7 +51,7 @@ const Contacts: FC = () => {
     },
   ];
   return (
-    <Box sx={{ m: "20px" }}>
+    <>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
         <Header Title='Contact' SubTitle='Have a Question' />
       </Box>
@@ -97,7 +97,7 @@ const Contacts: FC = () => {
           slots={{ toolbar: GridToolbar }}
         />
       </Box>
-    </Box>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar";
 import SidebarDash from "./scenes/global/SidebarDash";
 import { Outlet } from "react-router-dom";
+import { Wrapper } from "./hoc";
 export default function App() {
   const [theme, colorMode] = useMode();
   return (
@@ -13,7 +14,9 @@ export default function App() {
           <SidebarDash />
           <main className='content'>
             <Topbar />
-            <Outlet />
+            <Wrapper>
+              <Outlet />
+            </Wrapper>
           </main>
         </div>
       </ThemeProvider>

@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  Form,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -19,6 +18,7 @@ import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
+import Form from "./scenes/form";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

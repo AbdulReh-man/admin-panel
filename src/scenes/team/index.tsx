@@ -96,7 +96,7 @@ const Team = () => {
     // },
   ];
   return (
-    <Box sx={{ m: "20px" }}>
+    <>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
         <Header Title='Team' SubTitle='Manage The Team Members' />
       </Box>
@@ -132,7 +132,7 @@ const Team = () => {
           }}
         />
       </Box>
-    </Box>
+    </>
   );
 };
 
