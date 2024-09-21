@@ -18,6 +18,8 @@ const Team = () => {
       headerName: "ID",
       width: 90,
       headerClassName: "MuiDataGrid-root",
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "name",
@@ -115,9 +117,10 @@ const Team = () => {
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
+              borderColor: "InactiveBorder",
             },
             "& .MuiDataGrid-cell": {
-              borderBottom: "none",
+              border: "none !important",
             },
             "& .MuiDataGrid-withBorderColor": {
               backgroundColor: colors.blueAccent[700],

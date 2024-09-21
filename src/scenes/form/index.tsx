@@ -1,6 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
-import { TextField, Button, Box, useTheme, Theme } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  useTheme,
+  Theme,
+  useMediaQuery,
+} from "@mui/material";
 import { validationSchema } from "../../validation/validationschema";
 import { tokens } from "../../theme";
 import Header from "../../components/header";
@@ -17,6 +24,7 @@ interface MyFormValues {
 const Form: FC = () => {
   const theme = useTheme<Theme>();
   const colors = tokens(theme.palette.mode);
+  const isNonMobile = useMediaQuery("(min-width:600px)");
   const formicform = useFormik<MyFormValues>({
     initialValues: {
       fname: "",
@@ -37,11 +45,10 @@ const Form: FC = () => {
       <form onSubmit={formicform.handleSubmit}>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            gap: "20px 0",
+            display: "grid",
+            gap: "20px",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             marginTop: "2em",
             "& input:-webkit-autofill": {
               WebkitBoxShadow: `0 0 0 30px ${theme.palette.background.default} inset !important`,
@@ -56,59 +63,58 @@ const Form: FC = () => {
             "& input:-webkit-autofill:active": {
               WebkitBoxShadow: `0 0 0 30px ${theme.palette.background.default} inset !important`,
             },
+            ".MuiFormHelperText-root": {
+              textAlign: "right",
+            },
           }}
         >
-          <Box
+          <TextField
+            id='fname'
+            label='FirstName*'
+            title='Mandatory'
+            value={formicform.values.fname}
+            onChange={formicform.handleChange}
+            error={formicform.touched.fname && !!formicform.errors.fname}
+            helperText={formicform.touched.fname && formicform.errors.fname}
+            onBlur={formicform.handleBlur}
+            fullWidth
+            color='secondary'
+            autoFocus={true}
+            autoComplete='false'
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              gap: "20px",
+              gridColumn: "span 2",
             }}
-          >
-            <TextField
-              id='fname'
-              label='FirstName*'
-              title='Mandatory'
-              value={formicform.values.fname}
-              onChange={formicform.handleChange}
-              error={
-                formicform.touched.fname && Boolean(formicform.errors.fname)
-              }
-              helperText={formicform.touched.fname && formicform.errors.fname}
-              onBlur={formicform.handleBlur}
-              fullWidth
-              color='secondary'
-              autoFocus={true}
-              autoComplete='false'
-            />
-            <TextField
-              id='lname'
-              label='LastName*'
-              title='Mandatory'
-              value={formicform.values.lname}
-              onChange={formicform.handleChange}
-              error={
-                formicform.touched.lname && Boolean(formicform.errors.lname)
-              }
-              helperText={formicform.touched.lname && formicform.errors.lname}
-              onBlur={formicform.handleBlur}
-              fullWidth
-              color='secondary'
-            />
-          </Box>
+          />
+          <TextField
+            id='lname'
+            label='LastName*'
+            title='Mandatory'
+            value={formicform.values.lname}
+            onChange={formicform.handleChange}
+            error={formicform.touched.lname && !!formicform.errors.lname}
+            helperText={formicform.touched.lname && formicform.errors.lname}
+            onBlur={formicform.handleBlur}
+            fullWidth
+            color='secondary'
+            sx={{
+              gridColumn: "span 2",
+            }}
+          />
+
           <TextField
             id='email'
             label='Email*'
             title='Mandatory'
             value={formicform.values.email}
             onChange={formicform.handleChange}
-            error={formicform.touched.email && Boolean(formicform.errors.email)}
+            error={formicform.touched.email && !!formicform.errors.email}
             helperText={formicform.touched.email && formicform.errors.email}
             onBlur={formicform.handleBlur}
             fullWidth
             color='secondary'
+            sx={{
+              gridColumn: "span 4",
+            }}
           />
           <TextField
             id='contact'
@@ -116,13 +122,14 @@ const Form: FC = () => {
             title='Mandatory'
             value={formicform.values.contact}
             onChange={formicform.handleChange}
-            error={
-              formicform.touched.contact && Boolean(formicform.errors.contact)
-            }
+            error={!!formicform.touched.contact && !!formicform.errors.contact}
             helperText={formicform.touched.contact && formicform.errors.contact}
             onBlur={formicform.handleBlur}
             fullWidth
             color='secondary'
+            sx={{
+              gridColumn: "span 4",
+            }}
           />
           <TextField
             id='address1'
@@ -130,15 +137,16 @@ const Form: FC = () => {
             title='Mandatory'
             value={formicform.values.address1}
             onChange={formicform.handleChange}
-            error={
-              formicform.touched.address1 && Boolean(formicform.errors.address1)
-            }
+            error={formicform.touched.address1 && !!formicform.errors.address1}
             helperText={
               formicform.touched.address1 && formicform.errors.address1
             }
             onBlur={formicform.handleBlur}
             fullWidth
             color='secondary'
+            sx={{
+              gridColumn: "span 4",
+            }}
           />
           <TextField
             id='address2'
@@ -146,27 +154,37 @@ const Form: FC = () => {
             title='Optional'
             value={formicform.values.address2}
             onChange={formicform.handleChange}
-            error={
-              formicform.touched.address2 && Boolean(formicform.errors.address2)
-            }
+            error={formicform.touched.address2 && !!formicform.errors.address2}
             helperText={
               formicform.touched.address2 && formicform.errors.address2
             }
             onBlur={formicform.handleBlur}
             fullWidth
             color='secondary'
-          />
-          <Button
-            type='submit'
-            variant='contained'
             sx={{
-              background: formicform.isSubmitting
-                ? colors.blueAccent[500]
-                : colors.greenAccent[500],
+              gridColumn: "span 4",
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+              mt: "20px",
+              gridColumn: "span 4",
             }}
           >
-            Create new User
-          </Button>
+            <Button
+              type='submit'
+              variant='contained'
+              sx={{
+                background: formicform.isSubmitting
+                  ? colors.blueAccent[500]
+                  : colors.greenAccent[500],
+              }}
+            >
+              Create new User
+            </Button>
+          </Box>
         </Box>
       </form>
     </>

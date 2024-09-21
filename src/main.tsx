@@ -23,7 +23,7 @@ import Form from "./scenes/form";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route path='' element={<Dashboard />} />
+      <Route index element={<Dashboard />} />
       <Route path='bar' element={<Bar />} />
       <Route path='calender' element={<Calender />} />
       <Route path='faq' element={<Faq />} />

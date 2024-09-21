@@ -1,4 +1,6 @@
 import * as yup from "yup";
+const phoneRegExp =
+  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 export const validationSchema = yup.object().shape({
   fname: yup
@@ -13,6 +15,7 @@ export const validationSchema = yup.object().shape({
     .required("Required"),
   contact: yup
     .string()
+    .matches(phoneRegExp, "Phone number is not valid")
     .min(11, "Number should be of 11 characters length")
     .required("Contact Number is required"),
   email: yup
