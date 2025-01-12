@@ -12,20 +12,19 @@ import { validationSchema } from "../../validation/validationschema";
 import { tokens } from "../../theme";
 import Header from "../../components/header";
 
-interface MyFormValues {
-  fname: string;
-  lname: string;
-  email: string;
-  contact: string;
-  address1: string;
-  address2: string;
-}
-
 const Form: FC = () => {
   const theme = useTheme<Theme>();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const formicform = useFormik<MyFormValues>({
+  const {
+    handleBlur,
+    handleSubmit,
+    errors,
+    handleChange,
+    values,
+    touched,
+    isSubmitting,
+  } = useFormik({
     initialValues: {
       fname: "",
       lname: "",
@@ -42,7 +41,7 @@ const Form: FC = () => {
   return (
     <>
       <Header Title='New USer' SubTitle='Create a New User' />
-      <form onSubmit={formicform.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Box
           sx={{
             display: "grid",
@@ -72,11 +71,11 @@ const Form: FC = () => {
             id='fname'
             label='FirstName*'
             title='Mandatory'
-            value={formicform.values.fname}
-            onChange={formicform.handleChange}
-            error={formicform.touched.fname && !!formicform.errors.fname}
-            helperText={formicform.touched.fname && formicform.errors.fname}
-            onBlur={formicform.handleBlur}
+            value={values.fname}
+            onChange={handleChange}
+            error={touched.fname && !!errors.fname}
+            helperText={touched.fname && errors.fname}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             autoFocus={true}
@@ -89,11 +88,11 @@ const Form: FC = () => {
             id='lname'
             label='LastName*'
             title='Mandatory'
-            value={formicform.values.lname}
-            onChange={formicform.handleChange}
-            error={formicform.touched.lname && !!formicform.errors.lname}
-            helperText={formicform.touched.lname && formicform.errors.lname}
-            onBlur={formicform.handleBlur}
+            value={values.lname}
+            onChange={handleChange}
+            error={touched.lname && !!errors.lname}
+            helperText={touched.lname && errors.lname}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             sx={{
@@ -105,11 +104,11 @@ const Form: FC = () => {
             id='email'
             label='Email*'
             title='Mandatory'
-            value={formicform.values.email}
-            onChange={formicform.handleChange}
-            error={formicform.touched.email && !!formicform.errors.email}
-            helperText={formicform.touched.email && formicform.errors.email}
-            onBlur={formicform.handleBlur}
+            value={values.email}
+            onChange={handleChange}
+            error={touched.email && !!errors.email}
+            helperText={touched.email && errors.email}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             sx={{
@@ -120,11 +119,11 @@ const Form: FC = () => {
             id='contact'
             label='Contact*'
             title='Mandatory'
-            value={formicform.values.contact}
-            onChange={formicform.handleChange}
-            error={!!formicform.touched.contact && !!formicform.errors.contact}
-            helperText={formicform.touched.contact && formicform.errors.contact}
-            onBlur={formicform.handleBlur}
+            value={values.contact}
+            onChange={handleChange}
+            error={!!touched.contact && !!errors.contact}
+            helperText={touched.contact && errors.contact}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             sx={{
@@ -135,13 +134,11 @@ const Form: FC = () => {
             id='address1'
             label='Address1*'
             title='Mandatory'
-            value={formicform.values.address1}
-            onChange={formicform.handleChange}
-            error={formicform.touched.address1 && !!formicform.errors.address1}
-            helperText={
-              formicform.touched.address1 && formicform.errors.address1
-            }
-            onBlur={formicform.handleBlur}
+            value={values.address1}
+            onChange={handleChange}
+            error={touched.address1 && !!errors.address1}
+            helperText={touched.address1 && errors.address1}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             sx={{
@@ -152,13 +149,11 @@ const Form: FC = () => {
             id='address2'
             label='Address2'
             title='Optional'
-            value={formicform.values.address2}
-            onChange={formicform.handleChange}
-            error={formicform.touched.address2 && !!formicform.errors.address2}
-            helperText={
-              formicform.touched.address2 && formicform.errors.address2
-            }
-            onBlur={formicform.handleBlur}
+            value={values.address2}
+            onChange={handleChange}
+            error={touched.address2 && !!errors.address2}
+            helperText={touched.address2 && errors.address2}
+            onBlur={handleBlur}
             fullWidth
             color='secondary'
             sx={{
@@ -177,7 +172,7 @@ const Form: FC = () => {
               type='submit'
               variant='contained'
               sx={{
-                background: formicform.isSubmitting
+                background: isSubmitting
                   ? colors.blueAccent[500]
                   : colors.greenAccent[500],
               }}
