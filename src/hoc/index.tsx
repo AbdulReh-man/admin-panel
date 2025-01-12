@@ -6,5 +6,5 @@ interface HOCProps {
 }
 
 export const Wrapper: FC<HOCProps> = ({ children }) => {
-  return <Box sx={{ maxWidth: "1500px", p: "20px" }}>{children}</Box>;
+  return <Box sx={{ maxWidth: "1600px", p: "20px" }}>{children}</Box>;
 };

@@ -5,23 +5,16 @@ import {
   MenuItem,
   sidebarClasses,
   menuClasses,
+  SubMenu,
 } from "react-pro-sidebar";
 import { Box, IconButton, Theme, Typography, useTheme } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import profilepic from "../../assets/profilepic.jpeg";
+import { SideabrAdmin as SideabrNavigation } from "../../data/sidebar";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import SpaceDashboardOutlinedIcon from "@mui/icons-material/SpaceDashboardOutlined";
+import GrainOutlinedIcon from "@mui/icons-material/GrainOutlined";
 
 interface ItemProps {
   title: string;
@@ -30,20 +23,11 @@ interface ItemProps {
 }
 
 const Item: FC<ItemProps> = ({ title, to, icon }) => {
-  const theme = useTheme<Theme>();
-  const colors = tokens(theme.palette.mode);
   const location = useLocation();
   const isActive = location.pathname === to;
   return (
-    <MenuItem
-      active={isActive}
-      style={{
-        color: colors.grey[100],
-      }}
-      icon={icon}
-      component={<Link to={to} />}
-    >
-      <Typography>{title}</Typography>
+    <MenuItem active={isActive} component={<Link to={to} />} icon={icon}>
+      <Typography sx={{ fontSize: "1.3rem" }}>{title}</Typography>
     </MenuItem>
   );
 };
@@ -51,7 +35,7 @@ const Item: FC<ItemProps> = ({ title, to, icon }) => {
 const SidebarDash: FC = () => {
   const theme = useTheme<Theme>();
   const colors = tokens(theme.palette.mode);
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   return (
     <Prosidebar
       collapsed={open}
@@ -77,6 +61,8 @@ const SidebarDash: FC = () => {
               },
             },
             height: "40px !important",
+            paddingBlock: "1.5rem",
+            color: colors.grey[100],
           },
           [`.${menuClasses.active}`]: {
             [`.${menuClasses.label}, .${menuClasses.icon}`]: {
@@ -118,7 +104,6 @@ const SidebarDash: FC = () => {
             )}
           </MenuItem>
         </Box>
-
         {!open && (
           <Box mb='25px'>
             <Link to='/'>
@@ -147,63 +132,42 @@ const SidebarDash: FC = () => {
             </Box>
           </Box>
         )}
-        <Box paddingLeft={open ? undefined : "10%"}>
-          <Item title='Dashboard' to='/' icon={<HomeOutlinedIcon />} />
-
-          <Typography
-            variant='h6'
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Data
-          </Typography>
-          <Item title='Manage Team' to='/team' icon={<PeopleOutlinedIcon />} />
+        <Box sx={{ paddingBlock: "0.8rem" }}>
           <Item
-            title='Contacts Information'
-            to='/contacts'
-            icon={<ContactsOutlinedIcon />}
-          />
-          <Item
-            title='Invoices Balances'
-            to='/invoices'
-            icon={<ReceiptOutlinedIcon />}
-          />
-
-          <Typography
-            variant='h6'
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Pages
-          </Typography>
-          <Item title='Profile Form' to='/form' icon={<PersonOutlinedIcon />} />
-          <Item
-            title='Calender'
-            to='/calender'
-            icon={<CalendarTodayOutlinedIcon />}
-          />
-          <Item title='FAQ Page' to='/faq' icon={<HelpOutlineOutlinedIcon />} />
-
-          <Typography
-            variant='h6'
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Charts
-          </Typography>
-          <Item title='Bar Chart' to='/bar' icon={<BarChartOutlinedIcon />} />
-          <Item
-            title='Pie Chart'
-            to='/pie'
-            icon={<PieChartOutlineOutlinedIcon />}
-          />
-          <Item title='Line Chart' to='/line' icon={<TimelineOutlinedIcon />} />
-          <Item
-            title='Geography Chart'
-            to='/geography'
-            icon={<MapOutlinedIcon />}
+            title='Dashboard'
+            to='/'
+            icon={<SpaceDashboardOutlinedIcon />}
           />
         </Box>
+        {SideabrNavigation.map((item, index) => {
+          const icons = <item.icon />;
+          return (
+            <SubMenu
+              key={index.toString()}
+              label={item.title}
+              icon={icons}
+              rootStyles={{
+                [`.${menuClasses.label}`]: {
+                  fontSize: "1.3rem",
+                },
+                [`.${menuClasses.subMenuContent}`]: {
+                  width: "fit-content",
+                  backgroundColor: colors.primary[400],
+                  paddingBlock: "0.7rem",
+                },
+              }}
+            >
+              {item.items.map((subitem, itemindex) => (
+                <Item
+                  key={itemindex.toExponential()}
+                  title={subitem.title}
+                  to={subitem.to}
+                  icon={<GrainOutlinedIcon />}
+                />
+              ))}
+            </SubMenu>
+          );
+        })}
       </Menu>
     </Prosidebar>
   );

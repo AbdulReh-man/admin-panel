@@ -10,7 +10,6 @@ import "./index.css";
 import App from "./App";
 import Dashboard from "./scenes/dashboard";
 import Bar from "./scenes/bar";
-import Calender from "./scenes/calender";
 import Faq from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Invoices from "./scenes/invoices";
@@ -19,13 +18,13 @@ import Pie from "./scenes/pie";
 import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
+import Signup from "./scenes/global/Signup";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index element={<Dashboard />} />
       <Route path='bar' element={<Bar />} />
-      <Route path='calender' element={<Calender />} />
       <Route path='faq' element={<Faq />} />
       <Route path='form' element={<Form />} />
       <Route path='geography' element={<Geography />} />
@@ -34,6 +33,7 @@ const router = createBrowserRouter(
       <Route path='pie' element={<Pie />} />
       <Route path='team' element={<Team />} />
       <Route path='contacts' element={<Contacts />} />
+      <Route path='signup' element={<Signup />} />
     </Route>
   )
 );
