@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { validationSchema } from "../../validation/validationschema";
 import { tokens } from "../../theme";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 
 const Form: FC = () => {
   const theme = useTheme<Theme>();

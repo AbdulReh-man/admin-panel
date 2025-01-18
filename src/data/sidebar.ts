@@ -106,6 +106,29 @@ export const SideabrAdmin = [
       },
     ],
   },
+  {
+    title: "Charts",
+    to: "/",
+    icon: ForumOutlinedIcon,
+    items: [
+      {
+        title: "Bar Chart",
+        to: "/bar",
+      },
+      {
+        title: "Pie Chart",
+        to: "/pie",
+      },
+      {
+        title: "Line Chart",
+        to: "/line",
+      },
+      {
+        title: "Geography Chart",
+        to: "/geography",
+      },
+    ],
+  },
 ];
 export const SideabrVendor = [
   {
@@ -118,7 +141,7 @@ export const SideabrVendor = [
         to: "",
       },
       {
-        title: "Order Detaails",
+        title: "Order Details",
         to: "",
       },
       {

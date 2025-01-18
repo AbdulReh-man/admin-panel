@@ -4,8 +4,38 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { StepConnector, stepConnectorClasses, styled } from "@mui/material";
+import {
+  StepConnector,
+  stepConnectorClasses,
+  StepContent,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useFormik } from "formik";
+import Forms from "./Forms";
+
+const InitialValues: FormValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+};
+
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+interface StepProps {
+  completed?: boolean;
+}
+
+interface LabelProps {
+  optional?: React.ReactNode;
+}
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -38,77 +68,100 @@ const steps = ["Personal Details", "Documents", "Address"];
 const Signup = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () =>
+  const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handlesubmit = (values: FormValues) => {
+    console.log(values);
+  };
 
   const handleBack = () =>
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
 
-  const handleReset = () => setActiveStep(0);
-
+  const {
+    handleBlur,
+    handleSubmit,
+    errors,
+    handleChange,
+    values,
+    touched,
+    isSubmitting,
+  } = useFormik({
+    initialValues: InitialValues,
+    onSubmit: (values) => {
+      handlesubmit(values);
+    },
+  });
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stepper
-        activeStep={activeStep}
-        sx={{
-          "& .MuiStepIcon-root": { color: "gray" },
-          "& .MuiStepIcon-root.Mui-active": { color: "secondary.main" },
-          "& .MuiStepIcon-root.Mui-completed": { color: "secondary.main" },
-          [`&.${stepConnectorClasses.completed}`]: {
-            [`& .${stepConnectorClasses.line}`]: {
-              backgroundImage:
-                "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+    <form onSubmit={handleSubmit}>
+      <Box>
+        <Stepper
+          activeStep={activeStep}
+          sx={{
+            "& .MuiStepIcon-root": { color: "gray" },
+            "& .MuiStepIcon-root.Mui-active": { color: "secondary.main" },
+            "& .MuiStepIcon-root.Mui-completed": { color: "secondary.main" },
+            [`&.${stepConnectorClasses.completed}`]: {
+              [`& .${stepConnectorClasses.line}`]: {
+                backgroundImage:
+                  "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+              },
             },
-          },
-          // "& .MuiStepConnector-line": { borderColor: "red" },
-        }}
-        connector={<ColorlibConnector />}
-      >
-        {steps.map((label) => {
-          const stepProps: { completed?: boolean } = {};
-          const labelProps: {
-            optional?: React.ReactNode;
-          } = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset} variant='contained' color='secondary'>
-              Reset
-            </Button>
-          </Box>
-        </>
-      ) : (
-        <>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color='inherit'
-              variant='contained'
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleNext} color='secondary' variant='contained'>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
-        </>
-      )}
-    </Box>
+          }}
+          connector={<ColorlibConnector />}
+        >
+          {steps.map((label) => {
+            const stepProps: { completed?: boolean } = {};
+            const labelProps: {
+              optional?: React.ReactNode;
+            } = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        {activeStep === 0 && (
+          <Forms
+            handleBlur={handleBlur}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            handleChange={handleChange}
+            values={values}
+            touched={touched}
+          />
+        )}
+
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Button
+            color='inherit'
+            variant='contained'
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
+            Back
+          </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
+          <Button
+            onClick={
+              activeStep === steps.length ? undefined : () => handleNext()
+            }
+            color={isSubmitting ? "success" : "secondary"}
+            variant='contained'
+            type={activeStep === steps.length ? "submit" : "button"}
+          >
+            {activeStep === steps.length - 1
+              ? "Signup"
+              : isSubmitting
+              ? "Submitting..."
+              : "Next"}
+          </Button>
+        </Box>
+      </Box>
+    </form>
   );
 };
 

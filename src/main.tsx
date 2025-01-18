@@ -9,7 +9,7 @@ import {
 import "./index.css";
 import App from "./App";
 import Dashboard from "./scenes/dashboard";
-import Bar from "./scenes/bar";
+import Bar from "./scenes/mybar";
 import Faq from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Invoices from "./scenes/invoices";
