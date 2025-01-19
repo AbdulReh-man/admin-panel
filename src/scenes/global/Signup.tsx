@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import Forms from "./Forms";
+import Forms from "../multiforms/Forms";
 
 const InitialValues: FormValues = {
   firstName: "",

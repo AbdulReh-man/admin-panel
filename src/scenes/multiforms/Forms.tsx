@@ -1,6 +1,20 @@
 import { TextField } from "@mui/material";
 
-const Forms = (props) => {
+interface FormValues {
+  fname: string;
+  lname: string;
+  email: string;
+}
+
+interface FormProps {
+  values: FormValues;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  touched: { [key: string]: boolean };
+  errors: { [key: string]: string };
+  handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+}
+
+const Forms: React.FC<FormProps> = (props) => {
   const { values, handleChange, touched, errors, handleBlur } = props;
   return (
     <>
